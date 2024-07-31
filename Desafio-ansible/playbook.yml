@@ -1,7 +1,15 @@
 ---
-- name: Deployment de un sitio estatico
+- name: Deployment de un sitio estático
   hosts: all
   become: yes
+  pre_tasks:
+    - name: Verificar si el OS es Ubuntu
+      include_role:
+        name: common
+  vars_files:
+    - vars/vars-site.yml
   roles:
-    - common
     - static_site
+  tasks:
+    - name: Instalar servicio Apache
+      include_tasks: roles/static_site/tasks/install-apache2.yml
